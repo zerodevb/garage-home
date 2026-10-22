@@ -7,7 +7,7 @@ const os = require('os');
 const path = require('path');
 const signingRequire = require('module').createRequire(path.join(__dirname, '..', 'tools', 'signing', 'package.json'));
 
-const FILES = ['config.xml', 'index.html', 'style.css', 'icon.png', 'js/pako_inflate.es5.min.js', 'js/qrcode.js', 'js/data.js', 'js/player.js', 'js/app.js'];
+const FILES = ['config.xml', 'index.html', 'style.css', 'icon.png', 'js/pako_inflate.es5.min.js', 'js/qrcode.js', 'js/data.js', 'js/player.js', 'js/app.js', 'garage-config.js'];
 const CERTS = process.env.CERT_DIR || path.join(os.homedir(), 'SamsungCertificate', 'garage');
 const OUT = path.join(__dirname, 'dist', 'GaragePlayer.wgt');
 

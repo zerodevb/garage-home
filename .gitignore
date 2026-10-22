@@ -2,6 +2,7 @@ node_modules/
 dist/
 *.wgt
 garage.env
+garage-config.js
 *.p12
 debloat-restore-*.json
 .DS_Store

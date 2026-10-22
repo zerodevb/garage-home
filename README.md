@@ -56,6 +56,8 @@ Without Vetro, Garage Home and Garage Player still run as normal apps; the root-
 
 ## Build and install
 
+> **Using Claude Code?** Open this folder and ask *"install Garage Home on my TV"* — [CLAUDE.md](CLAUDE.md) walks Claude through every step with you.
+
 ```bash
 cp garage.env.example garage.env     # set TV, CERT_DIR and KEYCHAIN_SERVICE
 (cd tools/signing && npm ci --ignore-scripts)
@@ -63,7 +65,7 @@ cp garage.env.example garage.env     # set TV, CERT_DIR and KEYCHAIN_SERVICE
 ./build-player.sh                    # builds and installs Garage Player
 ```
 
-`garage.env` is git-ignored. Signing passwords are read from the macOS Keychain (`KEYCHAIN_SERVICE`, accounts `author` and `distributor`). Optional per-TV settings go in `window.GARAGE_CONFIG` (`tvIp` for phone QR codes, `place` for weather).
+`garage.env` is git-ignored. Signing passwords are read from the macOS Keychain (`KEYCHAIN_SERVICE`, accounts `author` and `distributor`). The build writes the TV's IP (for phone QR codes) and the optional `GARAGE_PLACE` weather location into `garage-config.js`.
 
 You can preview both apps in a desktop browser by opening `launcher/index.html` or `player/index.html`.
 
