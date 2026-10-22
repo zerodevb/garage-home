@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://thegaragedevs.com/player" version="1.0.0" viewmodes="maximized">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://thegaragedevs.com/player" version="1.1.0" viewmodes="maximized">
     <tizen:application id="GaragePlay.player" package="GaragePlay" required_version="3.0"/>
     <author href="https://thegaragedevs.com">The Garage Devs</author>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
-    <icon src="icon.png"/>
+    <icon src="app-icon.png"/>
     <name>Garage Player</name>
 
     <!-- IPTV playlists, streams, logos and EPG can live anywhere. -->

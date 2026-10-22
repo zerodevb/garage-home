@@ -339,7 +339,9 @@
   function startHeroTimer() {
     clearInterval(heroTimer);
     heroTimer = setInterval(function () {
-      if (state.page === 'home' && rowName() !== 'hero' && !ambientOn && !document.hidden) showHero(heroIndex + 1);
+      // On the featured app itself it waits until the remote has been still for a while.
+      var idle = Date.now() - lastInput > 12000;
+      if (state.page === 'home' && (rowName() !== 'hero' || idle) && !ambientOn && !document.hidden) showHero(heroIndex + 1);
     }, 9000);
   }
 
@@ -1049,8 +1051,9 @@
   document.querySelectorAll('.chip').forEach(function (c) { c.innerHTML = icon(c.dataset.icon); });
   $('weather')._action = weather;
 
-  var lastKey = 0, okDown = 0, okLong = false, okTimer = null;
+  var lastKey = 0, lastInput = 0, okDown = 0, okLong = false, okTimer = null;
   document.addEventListener('keydown', function (e) {
+    lastInput = Date.now();
     resetIdle();
     if (ambientOn) { stopAmbient(); e.preventDefault(); return; }
     var now = Date.now();

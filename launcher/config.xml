@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://thegaragedevs.com/home" version="1.1.0" viewmodes="maximized">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://thegaragedevs.com/home" version="1.2.0" viewmodes="maximized">
     <tizen:application id="GarageHome.launcher" package="GarageHome" required_version="3.0"/>
     <author href="https://thegaragedevs.com">The Garage Devs</author>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
-    <icon src="icon.png"/>
+    <icon src="app-icon.png"/>
     <name>Garage Home</name>
 
     <access origin="https://api.open-meteo.com" subdomains="false"/>
