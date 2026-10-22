@@ -23,7 +23,7 @@ Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung 
   <br><em>Garage Home (desktop preview).</em>
 </p>
 <p align="center">
-  <img src="docs/images/garage-home-screens.jpg" alt="Garage Home screens: Today row, TV shortcuts and quick controls, all apps" width="1000">
+  <img src="docs/images/garage-home-screens.jpg" alt="Garage Home screens: Today row, TV shortcuts and quick controls, all apps with Garage Player" width="1000">
 </p>
 
 ## Features

@@ -117,7 +117,6 @@ svg.ico { fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: 
 .gate .rail { stroke: rgba(238, 245, 244, .28); stroke-width: 3; stroke-linecap: round; fill: none; }
 .gate text { font-size: 11px; font-weight: 700; fill: rgba(238, 245, 244, .5); text-anchor: middle; }
 .gate text.on { fill: var(--chalk); }
-.gate .knob { transition: transform 420ms var(--ease); }
 .gate .knob circle { fill: var(--mint); }
 
 /* Shelves */
@@ -213,6 +212,13 @@ svg.ico { fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: 
 .hero-poster .art-yt svg { width: 84px; height: 60px; }
 .hero-poster .art-yt span { font-size: 52px; margin-left: 14px; }
 .art-name { padding: 0 30px; font-size: 48px; font-weight: 700; letter-spacing: -1px; text-align: center; }
+.art-gp { display: flex; align-items: center; color: #fff; }
+.art-gp svg { width: 52px; height: 64px; flex: none; }
+.art-gp span { margin-left: 10px; font-size: 29px; font-weight: 300; letter-spacing: -1px; color: var(--mint); }
+.art-gp b { font-weight: 800; color: #fff; }
+.hero-poster .art-gp { flex-direction: column; }
+.hero-poster .art-gp svg { width: 110px; height: 134px; }
+.hero-poster .art-gp span { margin: 14px 0 0; font-size: 44px; }
 .art-pv { display: flex; flex-direction: column; align-items: center; color: #fff; }
 .art-pv span { font-size: 42px; font-weight: 700; letter-spacing: -1px; }
 .art-pv svg { width: 150px; height: 30px; margin-top: -4px; }

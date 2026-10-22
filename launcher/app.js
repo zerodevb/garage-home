@@ -60,6 +60,7 @@
   // Artwork for apps whose installed icon is missing or a placeholder.
   // {icon} is replaced with the app's installed icon (an <img> without one is left out).
   var ART = [
+    [/garageplay|garageiptv/i, 'linear-gradient(135deg, #1d4a4d, #0f2326)', '<div class="art-gp"><svg viewBox="150 110 270 330"><path d="M176 148 Q176 128 194 138 L322 214 Q340 225 322 236 L194 312 Q176 322 176 302 Z" fill="#9fe6dc"/><path d="M352 150 a110 110 0 0 1 0 150" fill="none" stroke="#9fe6dc" stroke-width="20" stroke-linecap="round" opacity=".85"/><path d="M392 116 a160 160 0 0 1 0 218" fill="none" stroke="#9fe6dc" stroke-width="20" stroke-linecap="round" opacity=".5"/><rect x="166" y="364" width="180" height="62" rx="16" fill="#9fe6dc"/><text x="256" y="408" text-anchor="middle" font-weight="800" font-size="40" letter-spacing="7" fill="#0f2326">IPTV</text></svg><span><b>garage</b>player</span></div>'],
     [/smarters/i, 'linear-gradient(135deg, #1d2b64, #5b2a86)', '<img class="art-wide" src="{icon}" alt="">'],
     [/digitalb/i, '#e60004', '<div class="art-logo"><img src="{icon}" alt=""><span>DigitAlb</span></div>'],
     [/spotify/i, '#121212', '<div class="art-logo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1ed760"/><path d="M6.2 9.2c3.9-1.2 8.3-.8 11.6 1.1M6.8 12.5c3.2-.9 6.7-.6 9.5 1M7.4 15.6c2.6-.7 5.2-.4 7.4.8" fill="none" stroke="#121212" stroke-width="1.7" stroke-linecap="round"/></svg><span>Spotify</span></div>'],
@@ -235,11 +236,29 @@
       svg += '<g class="knob"><circle r="9"/></g>';
     }
     $('gate').innerHTML = svg;
+    knobAt = null;
   }
+  // Like a real stick: out of the gear to the neutral rail (y 36), across, then into the next gear.
+  var NEUTRAL = 36, knobAt = null;
   function shiftGate(i) {
     var knob = document.querySelector('#gate .knob');
     if (!knob) return;
-    knob.style.transform = 'translate(' + GEARS[i][0] + 'px,' + GEARS[i][1] + 'px)';
+    var to = GEARS[i], from = knobAt || to, pts = [from];
+    knobAt = to;
+    if (from[0] !== to[0] || from[1] !== to[1]) {
+      pts.push([from[0], NEUTRAL]);
+      if (from[0] !== to[0]) pts.push([to[0], NEUTRAL]);
+      pts.push(to);
+    }
+    var at = function (p) { return 'translate(' + p[0] + 'px,' + p[1] + 'px)'; };
+    knob.style.transform = at(to);
+    if (pts.length > 1 && knob.animate) {
+      // Keyframe offsets follow the distance travelled, so the speed stays even along the rails.
+      var lens = [0], total = 0;
+      for (var k = 1; k < pts.length; k++) { total += Math.abs(pts[k][0] - pts[k - 1][0]) + Math.abs(pts[k][1] - pts[k - 1][1]); lens.push(total); }
+      knob.animate(pts.map(function (p, k) { return {transform: at(p), offset: total ? lens[k] / total : k / (pts.length - 1)}; }),
+        {duration: 260 + total * 3, easing: 'ease-in-out'});
+    }
     var labels = document.querySelectorAll('#gate text');
     for (var t = 0; t < labels.length; t++) labels[t].setAttribute('class', t === i ? 'on' : '');
   }

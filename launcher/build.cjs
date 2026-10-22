@@ -7,7 +7,7 @@ const os = require('os');
 const path = require('path');
 const signingRequire = require('module').createRequire(path.join(__dirname, '..', 'tools', 'signing', 'package.json'));
 
-const FILES = ['config.xml', 'index.html', 'style.css', 'app.js', 'qrcode.js', 'icon.png', 'mascot.png', 'garage-config.js'];
+const FILES = ['config.xml', 'index.html', 'style.css', 'app.js', 'qrcode.js', 'icon.png', 'logo.png', 'garage-config.js'];
 const CERTS = process.env.CERT_DIR || path.join(os.homedir(), 'SamsungCertificate', 'garage');
 const OUT = path.join(__dirname, 'dist', 'GarageHome.wgt');
 
