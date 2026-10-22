@@ -9,6 +9,7 @@
   <a href="#garage-player">Garage Player</a> ·
   <a href="#requirements">Requirements</a> ·
   <a href="#build-and-install">Build and install</a> ·
+  <a href="#secure-by-default">Security</a> ·
   <a href="#debloat">Debloat</a> ·
   <a href="#compatibility">Compatibility</a> ·
   <a href="#license">License</a>
@@ -30,6 +31,7 @@ Garage Home replaces the Samsung bar with a full-screen launcher you drive with 
 - **Task manager.** See what is running and close background apps to free memory.
 - **Kids lock.** PIN-protect chosen apps.
 - **Home button and power-on.** The remote's Home key and TV power-on bring you back to Garage Home.
+- **Pairing sign-in.** Vetro only obeys apps on the TV and devices you paired with a code shown on screen.
 - **Light.** Around 80 MB of RAM fresh, written for the TV's Chromium 76 engine.
 
 ## Garage Player
@@ -68,6 +70,14 @@ cp garage.env.example garage.env     # set TV, CERT_DIR and KEYCHAIN_SERVICE
 `garage.env` is git-ignored. Signing passwords are read from the macOS Keychain (`KEYCHAIN_SERVICE`, accounts `author` and `distributor`). The build writes the TV's IP (for phone QR codes) and the optional `GARAGE_PLACE` weather location into `garage-config.js`.
 
 You can preview both apps in a desktop browser by opening `launcher/index.html` or `player/index.html`.
+
+## Secure by default
+
+Upstream Vetro answers anyone on the network. The Garage branch adds **pairing**: a browser or script that wants the dashboard or API asks to pair, Garage Home shows a 6-digit code on the TV, and only a device that types it gets a key. Apps on the TV itself need no setup. Requests using host names instead of the TV's IP (DNS rebinding) and cross-site requests from other web pages are refused; the dashboard has *Sign out* and *Sign out all devices*.
+
+```bash
+TV=192.168.1.50 node tools/vetro-key.mjs     # pair this computer for the tools below
+```
 
 ## Debloat
 

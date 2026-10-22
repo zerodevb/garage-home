@@ -335,3 +335,7 @@ svg.ico { fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: 
 .tile.moving::after { opacity: 0; }
 body.arranging #appsRow .tile:not(.moving) { opacity: .75; }
 body.arranging #appsRow .tile.focused { opacity: 1; }
+
+/* pairing code shown when a browser signs in to Vetro */
+.sheet.pair { width: 820px; text-align: center; }
+.pair-code { margin: 10px 0 26px; font-size: 96px; font-weight: 800; letter-spacing: 12px; color: var(--mint, #9fe6dc); }

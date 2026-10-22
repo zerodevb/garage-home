@@ -12,10 +12,10 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import {vetroUrl, vetroHeaders} from './vetro-key.mjs';
 
-const TV = (process.env.TV || '').replace(/:\d+$/, '');
-if (!TV) { console.error('Set TV to your TV\'s IP, e.g.  TV=192.168.1.50 node tools/garage-debloat.mjs'); process.exit(1); }
-const VETRO = `http://${TV}:8099`;
+const VETRO = vetroUrl();   // needs a paired key: run tools/vetro-key.mjs once
+const TV = new URL(VETRO).hostname;
 const args = process.argv.slice(2);
 const APPLY = args.includes('--apply'), EXTRAS = args.includes('--extras');
 const RESTORE = args.includes('--restore') ? args[args.indexOf('--restore') + 1] : null;
@@ -59,9 +59,14 @@ const noAutostartCmd = ids => `mkdir -p ${BK} && for id in ${ids.join(' ')}; do 
 const restoreAutostartCmd = ids => `for id in ${ids.join(' ')}; do f=${BK}/$id.garage; [ -f $f ] || continue; ob=$(cut -d'|' -f1 $f); ar=$(cut -d'|' -f2 $f); ` +
   `sqlite3 -bail ${DB} "UPDATE package_app_info SET app_onboot='$ob', app_autorestart='$ar' WHERE app_id='$id';"; echo "$id restored ($ob/$ar)"; done`;
 
-async function get(p) { const r = await fetch(VETRO + p); if (!r.ok) throw new Error(`${p}: HTTP ${r.status}`); return r.json(); }
+function check(p, r) {
+  if (r.status === 401) throw new Error('Vetro wants this computer paired first:  TV=<tv-ip> node tools/vetro-key.mjs');
+  if (!r.ok) throw new Error(`${p}: HTTP ${r.status}`);
+}
+async function get(p) { const r = await fetch(VETRO + p, {headers: vetroHeaders()}); check(p, r); return r.json(); }
 async function post(p, body) {
-  const r = await fetch(VETRO + p, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+  const r = await fetch(VETRO + p, {method: 'POST', headers: {'Content-Type': 'application/json', ...vetroHeaders()}, body: JSON.stringify(body)});
+  if (r.status === 401) check(p, r);
   const d = await r.json().catch(() => ({}));
   if (!r.ok || d.ok === false) throw new Error(d.error || `HTTP ${r.status}`);
   return d;

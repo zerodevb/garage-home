@@ -493,6 +493,24 @@
     ws.onerror = function () { clearTimeout(timer); finish((name || key) + " didn't work. The TV's remote control service isn't available."); };
   }
 
+  /* ---------- pairing code: Vetro asks the TV to show it when a browser or script signs in ---------- */
+  var pairShown = null;
+  function checkPairing() {
+    if (!hasTizen || document.hidden) return;
+    vetro('/auth/pending').then(function (d) {
+      if (d.code && d.code !== pairShown) {
+        pairShown = d.code;
+        openModal('<h3>Pair with Vetro</h3><p class="m-text">' + esc(d.name) + ' wants to control this TV. Enter this code there:</p>' +
+          '<div class="pair-code">' + esc(d.code.slice(0, 3) + ' ' + d.code.slice(3)) + '</div>' +
+          '<p class="m-text">Didn\'t ask for this? Press Back and the code expires in 2 minutes.</p><div class="m-item m-row"><span>Close</span></div>', {cls: 'pair'});
+        bindItems([closeModal]);
+      } else if (!d.code && pairShown) {
+        pairShown = null;
+        if (modal && modal.el.querySelector('.pair-code')) { closeModal(); toast('Pairing finished'); }
+      }
+    }).catch(function () {});
+  }
+
   /* ---------- modal sheets (PIN pad, app menu, news) ---------- */
   var modal = null;
   function openModal(html, opts) {
@@ -952,7 +970,7 @@
   }
 
   /* ---------- weather (Open-Meteo, no key; location from ipwho.is, cached a day) ---------- */
-  var FALLBACK_PLACE = CONFIG.place || null;   // {city, lat, lon}; without it the weather hides if the lookup fails
+  var FIXED_PLACE = CONFIG.place || null;   // {city, lat, lon} from garage.env; otherwise located by IP
   var WX = {
     sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/>',
     moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
@@ -974,6 +992,7 @@
   }
   function wxIcon(kind) { return '<svg class="ico" viewBox="0 0 24 24">' + WX[kind] + '</svg>'; }
   function place() {
+    if (FIXED_PLACE) return Promise.resolve(FIXED_PLACE);
     var c = store('gh.place');
     if (c && Date.now() - c.at < 864e5) return Promise.resolve(c);
     return getJson('https://ipwho.is/?fields=success,city,latitude,longitude').then(function (d) {
@@ -981,7 +1000,7 @@
       var p = {city: d.city.replace(/^Bashkia\s+/, ''), lat: d.latitude, lon: d.longitude, at: Date.now()};
       store('gh.place', p);
       return p;
-    }).catch(function () { return FALLBACK_PLACE; });
+    }).catch(function () { return null; });
   }
   function weather() {
     place().then(function (p) {
@@ -1070,7 +1089,7 @@
     okDown = 0;
   });
   document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) { tick(); getApps(render); checkSleepRequest(); resetIdle(); ensureVetro(); }
+    if (!document.hidden) { tick(); getApps(render); checkSleepRequest(); resetIdle(); ensureVetro(); checkPairing(); }
     else {
       // In the background (another app in front): free what is quick to rebuild when we come back.
       if (ambientOn) stopAmbient();
@@ -1093,6 +1112,7 @@
   startHeroTimer();
   checkSleepRequest();
   resetIdle();
+  setInterval(checkPairing, 3000);
   ensureVetro();
   // At boot the TV pre-starts Garage Home hidden (appbootingsupport), and Autorun Last App doesn't bring it
   // forward. Started hidden = pre-started: ask the TV to show us, so boot lands here instead of TV channels.

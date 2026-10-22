@@ -6,3 +6,5 @@ garage-config.js
 *.p12
 debloat-restore-*.json
 .DS_Store
+.vetro-key
+.vetro-pairing

@@ -22,7 +22,8 @@ Go one step at a time, and check each step before the next. Many steps happen on
 5. **Signing tools.** `(cd tools/signing && npm ci --ignore-scripts)`.
 6. **Vetro.** Clone `zerodevb/vetro`, check out `garage`, and follow its `app/docs/INSTALLATION.md`. Its root setup needs the TV's Host PC IP set to `127.0.0.1` afterwards; follow that guide exactly and let the user make each change on the TV.
 7. **Install the apps.** `./build-launcher.sh` and `./build-player.sh`. The script prompts for the certificate passwords and offers to save them in the Keychain. Let the user type them in their own terminal; never ask for passwords in chat, put them in files or pass them on a command line.
-8. **Check.** Ask the user to press Home on the remote: Garage Home should open. Vetro's API answers on `http://<tv-ip>:8099/status`.
+8. **Check.** Ask the user to press Home on the remote: Garage Home should open.
+9. **Pair this computer** for the tools: `TV=<tv-ip> node tools/vetro-key.mjs`. Garage Home pops up a 6-digit code; the user reads it to you, then run `node tools/vetro-key.mjs <code>`. Test with `curl -H "Authorization: Bearer $(cat tools/.vetro-key)" http://<tv-ip>:8099/status`.
 
 ## Connection rules (learned the hard way)
 
@@ -40,7 +41,7 @@ TV=<tv-ip> node tools/garage-debloat.mjs --apply      # apply (saves tools/deblo
 TV=<tv-ip> node tools/garage-debloat.mjs --restore tools/debloat-restore-<time>.json
 ```
 
-Always show the dry run first and get the user's OK before `--apply`. Tell them where the restore file is. Needs Vetro running.
+Always show the dry run first and get the user's OK before `--apply`. Tell them where the restore file is. Needs Vetro running and this computer paired (step 9).
 
 ## Changing the code
 
@@ -54,7 +55,7 @@ Always show the dry run first and get the user's OK before `--apply`. Tell them 
 
 - Don't edit Samsung system files, boot scripts or firmware on the TV, and don't try to get around Samsung's signature checks. Garage Home works within Vetro's API and normal app installs.
 - Ask before anything that changes the TV: installing, uninstalling, debloat `--apply`, Vetro actions that disable or stop components.
-- Vetro's dashboard is plain HTTP with no login. Keep the TV on a trusted home network.
+- Vetro (Garage branch) refuses unpaired network clients. A browser pairs on the dashboard page; scripts pair with `TV=<tv-ip> node tools/vetro-key.mjs` (Garage Home repo), and the TV shows a 6-digit code: ask the user to read it to you. The key goes in `tools/.vetro-key` (git-ignored); never print it. Traffic is still plain HTTP, so keep the TV on a trusted home network.
 
 ## License
 
