@@ -2,7 +2,7 @@
   <img src="launcher/mascot.png" alt="TheGarageDevs mascot" width="112">
 </p>
 <h1 align="center"><b>garage</b>home</h1>
-<p align="center"><strong>A fast, Android TV-style home screen for Samsung Tizen TVs.</strong></p>
+<p align="center"><strong>A custom launcher for Samsung Smart TVs: a fast, Android TV-style home screen for Tizen.</strong></p>
 <p align="center">Widgets, quick controls, a task manager, kids lock and a built-in IPTV player — giving older Samsung TVs a second life.</p>
 <p align="center">
   <a href="#features">Features</a> ·
@@ -11,11 +11,12 @@
   <a href="#build-and-install">Build and install</a> ·
   <a href="#secure-by-default">Security</a> ·
   <a href="#debloat">Debloat</a> ·
+  <a href="#faq">FAQ</a> ·
   <a href="#compatibility">Compatibility</a> ·
   <a href="#license">License</a>
 </p>
 
-Garage Home replaces the Samsung bar with a full-screen launcher you drive with the remote. It opens when the TV turns on and when you press **Home**, shows your apps in the order you choose, and puts the things you actually use one press away. It is built on top of [Vetro](https://github.com/andrearicci93/vetro), which provides the root service that makes Home-button handling, quick controls and the task manager possible.
+Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung Smart Hub bar with a full-screen **custom home screen** for Tizen TVs, driven entirely with the remote. It opens when the TV turns on and when you press **Home**, shows your apps in the order you choose, and puts the things you actually use one press away. It is built on top of [Vetro](https://github.com/andrearicci93/vetro), which provides the root service that makes Home-button handling, quick controls and the task manager possible.
 
 <p align="center">
   <img src="docs/images/garage-home.png" alt="Garage Home: clock, weather, your apps row and quick controls" width="1000">
@@ -91,6 +92,23 @@ TV=192.168.1.50 node tools/garage-debloat.mjs --restore debloat-restore-<date>.j
 
 On the test TV, free RAM went from about 534 MB to about 690 MB. Results depend on your model and what was running.
 
+## FAQ
+
+**Can I change the home screen on a Samsung Smart TV?**
+Samsung does not let you pick a different launcher, but with Developer Mode, a Samsung certificate and Vetro, Garage Home opens at power-on and on the Home button, so it works as your home screen.
+
+**Is it like an Android TV launcher?**
+The layout is inspired by Android TV / Google TV: an apps row you can rearrange, widgets, and quick controls. It is a Tizen web app, not Android.
+
+**Does it make an old Samsung TV faster?**
+Garage Home itself is light (about 80 MB), and the included debloat tool can switch off voice assistants, ads and background services. On the test TV, free RAM went from about 534 MB to about 690 MB.
+
+**Can I watch IPTV on a Samsung TV with it?**
+Yes, with the bundled Garage Player (M3U/M3U8 and Xtream Codes playlists, EPG). Bring your own playlist; no channels are included.
+
+**Which Samsung TVs are supported?**
+Tested on a 2021 Q60A (Tizen 6). Other Tizen 6+ models that Vetro supports should work; see below.
+
 ## Compatibility
 
 | TV | Firmware | Status |
@@ -106,6 +124,9 @@ Tried it on another model? Open an issue with the model, firmware and what worke
 - [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) (MIT) and [pako](https://github.com/nodeca/pako) (MIT).
 
 ## License
+
+Garage Home is an independent project, not affiliated with or endorsed by Samsung or the Tizen Project. Samsung and Tizen are trademarks of their respective owners.
+
 
 [PolyForm Noncommercial 1.0.0](LICENSE). Free to use, modify and share for any noncommercial purpose; **selling it or using it commercially is not allowed** without permission. Vetro and the bundled libraries keep their own MIT licenses.
 
