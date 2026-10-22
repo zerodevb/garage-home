@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Garage Home</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="ambient"></div>
+
+<div id="splash">
+  <img src="mascot.png" alt="">
+  <div class="wordmark big"><b>garage</b><span>home</span></div>
+</div>
+
+<header id="topbar">
+  <div class="brand">
+    <img src="mascot.png" alt="">
+    <div class="wordmark"><b>garage</b><span>home</span></div>
+  </div>
+  <nav class="tabs">
+    <button class="tab focusable active" data-tab="home">For you</button>
+    <button class="tab focusable" data-tab="apps">Apps</button>
+  </nav>
+  <div class="spacer"></div>
+  <div class="weather focusable" id="weather" hidden>
+    <span class="wx-ico" id="wxIco"></span>
+    <span class="wx-temp" id="wxTemp"></span>
+    <span class="wx-meta"><b id="wxCity"></b><span id="wxRange"></span></span>
+    <div class="wx-panel" id="wxPanel"></div>
+  </div>
+  <button class="chip focusable" data-launch="key:KEY_SOURCE" data-name="Sources" data-icon="source"></button>
+  <button class="chip focusable" data-launch="org.tizen.menu" data-name="Settings" data-icon="settings"></button>
+  <div class="clock"><span id="time">--:--</span><span id="date"></span></div>
+</header>
+
+<main id="home" class="page active">
+ <div class="scroller" id="homeScroll">
+  <section id="hero">
+    <div class="hero-card focusable" id="heroCard">
+      <div class="hero-bg" id="heroBgA"></div>
+      <div class="hero-bg" id="heroBgB"></div>
+      <div class="hero-poster hero-art-box" id="heroArtBox"></div>
+      <div class="hero-text">
+        <h1 id="heroTitle"></h1>
+        <p id="heroLine"></p>
+        <div class="hero-cta">Open</div>
+      </div>
+      <svg class="gate" id="gate" viewBox="0 0 132 72" aria-hidden="true"></svg>
+    </div>
+  </section>
+
+  <section class="shelf">
+    <h2>Your apps</h2>
+    <div class="tiles" id="appsRow"></div>
+  </section>
+
+  <section class="shelf">
+    <h2>Today</h2>
+    <div class="tiles cards" id="todayRow"></div>
+  </section>
+
+  <section class="shelf">
+    <h2>TV</h2>
+    <div class="tiles small" id="tvRow"></div>
+  </section>
+
+  <section class="shelf">
+    <h2>Quick controls</h2>
+    <div class="tiles small" id="ctrlRow"></div>
+  </section>
+
+
+  <div class="focus-label" id="focusLabel"></div>
+ </div>
+</main>
+
+<main id="apps" class="page">
+ <div class="scroller">
+  <h2 class="page-title">All apps</h2>
+  <div class="grid" id="appsGrid"></div>
+ </div>
+</main>
+
+<div id="modal"></div>
+
+<div id="ambient-mode">
+  <div class="photo" id="photoA"></div>
+  <div class="photo" id="photoB"></div>
+  <div class="am-shade"></div>
+  <div class="am-clock"><b id="amTime"></b><span id="amDate"></span><div class="am-wx" id="amWx"></div></div>
+  <div class="am-title" id="amTitle"></div>
+  <img class="am-mark" src="mascot.png" alt="">
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="preview-apps.js"></script>
+<script src="qrcode.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

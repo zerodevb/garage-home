@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.wgt
+garage.env
+*.p12
+debloat-restore-*.json
+.DS_Store

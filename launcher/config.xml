@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://thegaragedevs.com/home" version="1.1.0" viewmodes="maximized">
+    <tizen:application id="GarageHome.launcher" package="GarageHome" required_version="3.0"/>
+    <author href="https://thegaragedevs.com">The Garage Devs</author>
+    <content src="index.html"/>
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+    <icon src="icon.png"/>
+    <name>Garage Home</name>
+
+    <access origin="https://api.open-meteo.com" subdomains="false"/>
+    <access origin="https://ipwho.is" subdomains="false"/>
+    <access origin="http://127.0.0.1:8099" subdomains="false"/>
+    <access origin="ws://127.0.0.1:8001" subdomains="false"/>
+    <access origin="https://date.nager.at" subdomains="false"/>
+    <access origin="https://open.er-api.com" subdomains="false"/>
+    <access origin="https://ok.surf" subdomains="false"/>
+    <access origin="https://peapix.com" subdomains="false"/>
+    <access origin="https://img.peapix.com" subdomains="false"/>
+    <access origin="https://encrypted-tbn0.gstatic.com" subdomains="true"/>
+    <access origin="https://encrypted-tbn1.gstatic.com" subdomains="true"/>
+    <access origin="https://encrypted-tbn2.gstatic.com" subdomains="true"/>
+    <access origin="https://encrypted-tbn3.gstatic.com" subdomains="true"/>
+
+    <tizen:privilege name="http://tizen.org/privilege/internet"/>
+    <tizen:privilege name="http://tizen.org/privilege/application.info"/>
+    <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+    <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+    <tizen:privilege name="http://tizen.org/privilege/alarm"/>
+
+    <!-- Start early in boot (like Netflix/YouTube), so Garage Home and then Vetro come up ~1 minute sooner. -->
+    <tizen:metadata key="http://samsung.com/tv/metadata/appbootingsupport" value=""/>
+    <tizen:profile name="tv-samsung"/>
+    <tizen:setting screen-orientation="landscape" context-menu="disable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
+</widget>

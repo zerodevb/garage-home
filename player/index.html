@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>Garage Player</title>
+<script src="$WEBAPIS/webapis/webapis.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- AVPlay draws video behind the page wherever this object sits. -->
+<object id="av" type="application/avplayer"></object>
+
+<div id="browse">
+  <div class="preview" id="preview"><div class="preview-msg" id="previewMsg"></div></div>
+  <header class="topbar">
+    <div class="wordmark"><b>garage</b><span>player</span></div>
+    <div class="search focusable" id="searchBox">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>
+      <input id="searchInput" type="text" placeholder="Search channels" autocomplete="off">
+    </div>
+    <div class="spacer"></div>
+    <div class="status" id="status"></div>
+    <div class="clock" id="clock"></div>
+  </header>
+
+  <div class="folder-clip"><nav class="folders" id="folders"></nav></div>
+
+  <section class="channels">
+    <h2 id="folderTitle"></h2>
+    <div class="list" id="list"></div>
+    <p class="empty" id="empty" hidden></p>
+  </section>
+
+  <aside class="detail">
+    <div class="now">
+      <div class="now-head"><img id="dLogo" alt="" style="visibility:hidden"><div><b id="dName"></b><span id="dGroup"></span></div></div>
+      <div class="prog" id="dNow"></div>
+      <div class="prog next" id="dNext"></div>
+      <p class="desc" id="dDesc"></p>
+    </div>
+  </aside>
+</div>
+
+<div id="watch" hidden>
+  <div class="infobar" id="infobar">
+    <img id="iLogo" alt="">
+    <div class="i-main">
+      <div class="i-title"><span id="iNum"></span><b id="iName"></b></div>
+      <div class="i-prog"><span id="iNow"></span><div class="bar"><i id="iBar"></i></div><span id="iTime"></span></div>
+      <div class="i-next" id="iNext"></div>
+    </div>
+    <div class="i-hint">OK channels · hold OK options · ▲▼ channel · Back list</div>
+  </div>
+  <div class="buffer" id="buffer"><i></i><span>Loading</span></div>
+  <div class="subs" id="subs"></div>
+  <div class="numentry" id="numentry"></div>
+  <div class="zap" id="zap"></div>
+</div>
+
+<div id="sheet"></div>
+<div class="toast" id="toast"></div>
+
+<script src="preview.js"></script>
+<script src="js/pako_inflate.es5.min.js"></script>
+<script src="js/qrcode.js"></script>
+<script src="js/data.js"></script>
+<script src="js/player.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
