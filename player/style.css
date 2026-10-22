@@ -21,6 +21,7 @@ svg.ico { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-wi
 .wordmark { display: flex; align-items: baseline; font-size: 34px; letter-spacing: -.5px; line-height: 1; }
 .wordmark b { font-weight: 800; }
 .wordmark span { font-weight: 300; color: var(--mint); margin-left: 2px; }
+.wordmark .iptv { align-self: center; margin-left: 12px; padding: 4px 9px 3px; border-radius: 7px; background: var(--mint); color: var(--night); font-size: 17px; font-style: normal; font-weight: 800; letter-spacing: 1.5px; line-height: 1; }
 .search {
   display: flex; align-items: center; width: 560px; height: 60px; margin-left: 56px; padding: 0 22px; border-radius: 30px;
   background: rgba(159, 230, 220, .08); color: var(--muted); transition: background 150ms;
@@ -191,3 +192,11 @@ svg.ico { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-wi
 .zrow.playing b::after { content: "  ▶"; color: var(--teal); }
 .zrow.focused.playing b::after { color: var(--night); }
 .zhint { margin-top: 16px; font-size: 18px; color: var(--muted); }
+
+/* paused badge (remote Pause key or the full-screen menu) */
+.paused { position: absolute; z-index: 6; top: 64px; right: 72px; display: none; align-items: center; padding: 14px 24px; border-radius: 16px; background: rgba(15, 35, 38, .86); font-size: 26px; font-weight: 600; }
+.paused.show { display: flex; }
+.paused svg { width: 30px; height: 30px; margin-right: 12px; fill: var(--mint); }
+/* loading channels: a small spinner before the text */
+.empty.busy::before { content: ''; display: inline-block; width: 26px; height: 26px; margin-right: 14px; vertical-align: -5px; border: 3px solid rgba(159, 230, 220, .25); border-top-color: var(--mint); border-radius: 50%; animation: gp-spin .9s linear infinite; }
+@keyframes gp-spin { to { transform: rotate(360deg); } }

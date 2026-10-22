@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="launcher/mascot.png" alt="TheGarageDevs mascot" width="112">
+  <img src="docs/images/icon.png" alt="Garage Home icon" width="112">
 </p>
 <h1 align="center"><b>garage</b>home</h1>
 <p align="center"><strong>A custom launcher for Samsung Smart TVs: a fast, Android TV-style home screen for Tizen.</strong></p>
@@ -19,8 +19,11 @@
 Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung Smart Hub bar with a full-screen **custom home screen** for Tizen TVs, driven entirely with the remote. It opens when the TV turns on and when you press **Home**, shows your apps in the order you choose, and puts the things you actually use one press away. It is built on top of [Vetro](https://github.com/andrearicci93/vetro), which provides the root service that makes Home-button handling, quick controls and the task manager possible.
 
 <p align="center">
-  <img src="docs/images/garage-home.png" alt="Garage Home: clock, weather, your apps row and quick controls" width="1000">
-  <br><em>Garage Home on a Samsung Q60A (desktop preview).</em>
+  <img src="docs/images/garage-home.jpg" alt="Garage Home: clock, weather, featured app and your apps row" width="1000">
+  <br><em>Garage Home (desktop preview).</em>
+</p>
+<p align="center">
+  <img src="docs/images/garage-home-screens.jpg" alt="Garage Home screens: Today row, TV shortcuts and quick controls, all apps" width="1000">
 </p>
 
 ## Features
@@ -40,12 +43,13 @@ Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung 
 Garage Home ships with **Garage Player**, an IPTV player for M3U and Xtream playlists. It is also available on its own: [**garage-player**](https://github.com/zerodevb/garage-player).
 
 <p align="center">
-  <img src="docs/images/garage-player.png" alt="Garage Player channel list and preview" width="1000">
+  <img src="docs/images/garage-player.jpg" alt="Garage Player IPTV channel list and preview" width="1000">
 </p>
 
 - M3U links and Xtream logins, folders, favourites and search
 - EPG (XMLTV, gzip supported) with now/next on the channel overlay
-- Add a playlist from your phone by scanning a QR code
+- Add a playlist from your phone by scanning a QR code (with Vetro), or type it with the SmartThings app keyboard
+- Remote playback keys: Play, Pause, Stop; clear messages when the internet drops
 - PIN locks, with adult groups locked automatically
 - OK shows the channel overlay, hold OK for options, Back hides the info bar first
 
@@ -68,7 +72,7 @@ cp garage.env.example garage.env     # set TV, CERT_DIR and KEYCHAIN_SERVICE
 ./build-player.sh                    # builds and installs Garage Player
 ```
 
-`garage.env` is git-ignored. Signing passwords are read from the macOS Keychain (`KEYCHAIN_SERVICE`, accounts `author` and `distributor`). The build writes the TV's IP (for phone QR codes) and the optional `GARAGE_PLACE` weather location into `garage-config.js`.
+`garage.env` is git-ignored. Signing passwords are read from the macOS Keychain (`KEYCHAIN_SERVICE`, accounts `author` and `distributor`). The build writes the TV's IP (for phone QR codes) and the optional `GARAGE_PLACE` weather location into `garage-config.js`. `GARAGE_STANDALONE=1` builds Garage Player for TVs without Vetro (no phone QR, playlists load directly).
 
 You can preview both apps in a desktop browser by opening `launcher/index.html` or `player/index.html`.
 

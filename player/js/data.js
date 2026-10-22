@@ -6,7 +6,12 @@ var GP = window.GP || {};
 
   var hasTizen = typeof tizen !== 'undefined';
   // Vetro on the TV fetches for us when a provider blocks cross-origin requests.
-  var PROXY = window.GP_PROXY || 'http://127.0.0.1:8099/proxy?url=';   // Vetro on the TV; the desktop preview sets GP_PROXY
+  // Vetro on the TV fetches for providers that block apps; the desktop preview sets GP_PROXY.
+  // Standalone builds (GARAGE_CONFIG.standalone, e.g. without Vetro) load everything directly.
+  function proxyBase() {
+    if (window.GP_PROXY) return window.GP_PROXY;
+    return (window.GARAGE_CONFIG || {}).standalone ? null : 'http://127.0.0.1:8099/proxy?url=';
+  }
   var WEB_LINK = /(twitch\.tv|youtube\.com|youtu\.be|facebook\.com|dailymotion\.com)\//i;
   var EPG_HOURS = 12;
   var ADULT = /(^|[^a-z])(adult|adults|xxx|18\+|porn|erotic|for adults|\+18|sex)([^a-z]|$)/i;
@@ -70,6 +75,8 @@ var GP = window.GP || {};
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r;
     }).catch(function (direct) {
+      var PROXY = proxyBase();
+      if (!PROXY) throw /fetch/i.test(direct.message) ? new Error("Couldn't reach this server. Check the address, or try http:// instead of https://") : direct;
       return fetch(PROXY + encodeURIComponent(url) + (ua ? '&ua=' + encodeURIComponent(ua) : ''), {headers: {'X-Garage-App': '1'}}).then(function (r) {
         if (!r.ok) return proxyError(r, url).then(function (e) { throw e; });
         return r;

@@ -5,6 +5,7 @@
   var D = GP.data, P = GP.player, L = D.library;
   var hasTizen = typeof tizen !== 'undefined';
   var CONFIG = window.GARAGE_CONFIG || {};
+  var STANDALONE = !!CONFIG.standalone;   // no Vetro: no phone QR, playlists load directly
   var TV_LAN_IP = CONFIG.tvIp || '';   // only a fallback: the TV normally reports its own address
   var VETRO = hasTizen ? 'http://127.0.0.1:8099' : 'http://' + (TV_LAN_IP || '127.0.0.1') + ':8099';
   var ROWS = 9, ROW_H = 88, FOLDER_PAGE = 12;
@@ -165,6 +166,7 @@
   function renderList() {
     var empty = $('empty');
     var f = folders[folderIndex];
+    empty.classList.remove('busy');
     if (f && f.key === 'settings') { $('list').innerHTML = ''; return; }
     if (!channels.length) {
       $('list').innerHTML = '';
@@ -175,6 +177,7 @@
         : f && f.key === 'recent' ? 'Channels you watch appear here.'
         : f && f.custom ? 'This folder is empty. Hold OK on a channel and choose Add to folder.'
         : f && f.key === 'search' ? 'No channels match "' + query + '".' : 'No channels here.';
+      if (loading) empty.classList.add('busy');
       return;
     }
     empty.hidden = true;
@@ -316,7 +319,7 @@
       return '<div class="item' + (it.on ? ' on' : '') + '"><span>' + esc(it.label) + '</span>' + (it.sub ? '<em>' + esc(it.sub) + '</em>' : '') + '</div>';
     }).join('') + '</div></div>';
     el.classList.add('show');
-    sheet = {items: items, index: opts.index || 0, onBack: opts.onBack, onClose: opts.onClose, cols: opts.cols || 1, digit: opts.digit};
+    sheet = {title: title, items: items, index: opts.index || 0, onBack: opts.onBack, onClose: opts.onClose, cols: opts.cols || 1, digit: opts.digit};
     paintSheet();
   }
   function closeSheet(silent) {
@@ -443,6 +446,9 @@
     if (!c) return;
     var fav = L.isFavorite(c.id), mode = settings().mode || 'fit', now = D.nowNext(epg, c)[0];
     var items = [
+      P.paused() ? {label: 'Resume', sub: 'Or press Play on the remote', action: function () { closeSheet(); P.resume(); }}
+        : {label: 'Pause', sub: 'Or press Pause on the remote', action: function () { closeSheet(); P.pause(); }},
+      {label: 'Stop', sub: 'Back to the channel list', action: function () { closeSheet(); leaveWatch(); }},
       {label: 'Programme guide', sub: now ? 'Now: ' + now[2] : 'No programme information', action: function () { channelGuide(c); }},
       {label: fav ? 'Remove from favorites' : 'Add to favorites', action: function () { L.setFavorite(c.id, !fav); closeSheet(); toast(fav ? 'Removed from favorites' : 'Added to favorites'); }},
       {label: 'Picture', sub: {fit: 'Fit', fill: 'Fill screen', zoom: 'Original'}[mode], action: function () {
@@ -457,7 +463,6 @@
     subs.forEach(function (t) { items.push({label: 'Subtitles: ' + t.label, action: function () { P.selectTrack(t); closeSheet(); }}); });
     if (subs.length) items.push({label: 'Subtitles off', action: function () { P.subtitlesOff(); closeSheet(); }});
     if (lastChannel) items.push({label: 'Previous channel', sub: lastChannel.name, action: function () { closeSheet(); watch(lastChannel); }});
-    items.push({label: 'Back to channel list', action: function () { closeSheet(); leaveWatch(); }});
     openSheet(c.num + '  ' + c.name, items);
   }
   // The next hours for one channel; OK on a programme shows its description, Back returns.
@@ -540,8 +545,8 @@
         on: active && p.id === active.id, action: function () { playlistMenu(p); }};
     });
     items.push(
-      {label: 'Add playlist from phone', sub: 'Scan a QR code and paste the link on your phone', action: addFromPhone},
-      {label: 'Add M3U playlist', sub: 'Type the address with the TV keyboard', action: addM3U},
+      STANDALONE ? null : {label: 'Add playlist from phone', sub: 'Scan a QR code and paste the link on your phone', action: addFromPhone},
+      {label: 'Add M3U playlist', sub: STANDALONE ? 'Type it with the TV keyboard, or from your phone in the SmartThings app' : 'Type the address with the TV keyboard', action: addM3U},
       {label: 'Add Xtream login', sub: 'Server, username and password', action: addXtream},
       {label: 'Manage folders', sub: 'Show, hide and order groups; your own folders', action: manageFolders},
       {label: 'Hidden channels', sub: L.hiddenChannels().length + ' hidden', action: hiddenChannels},
@@ -565,7 +570,7 @@
         });
       }}
     );
-    openSheet('Settings', items, {cls: 'wide'});
+    openSheet('Settings', items.filter(Boolean), {cls: 'wide'});
   }
   // Destructive settings ask twice; if a PIN exists it guards them too.
   function confirmAction(title, detail, run) {
@@ -818,13 +823,55 @@
       else if (f && f.group !== undefined) manageFolders();
     }
   }
-  var backArmed = 0;
+  // On the first screen Back closes the app (back to Smart Hub), after a confirmation.
   function back() {
     if (focusArea === 'list') { focusArea = 'folders'; paintAll(); return; }
-    if (Date.now() - backArmed < 2500) { P.stop(); if (hasTizen) tizen.application.getCurrentApplication().exit(); return; }
-    backArmed = Date.now();
-    toast('Press Back again to close Garage Player');
+    openSheet('Close Garage Player?', [
+      {label: 'Close', action: function () { P.stop(); if (hasTizen) tizen.application.getCurrentApplication().exit(); }},
+      {label: 'Keep watching', action: function () { closeSheet(); }}
+    ]);
   }
+
+  // Remote playback keys: play/pause, stop; live streams can't be fast-forwarded, so say so.
+  var KEY = {PLAY_PAUSE: 10252, PLAY: 415, PAUSE: 19, STOP: 413, FF: 417, RW: 412};
+  function mediaKey(code) {
+    if (code === KEY.FF || code === KEY.RW) { if (P.current()) toast("Live channels can't be fast-forwarded or rewound"); return true; }
+    if (code === KEY.STOP) { if (watching) leaveWatch(); else P.stop(); return true; }
+    if (code === KEY.PLAY || code === KEY.PAUSE || code === KEY.PLAY_PAUSE) {
+      var wantPause = code === KEY.PAUSE || (code === KEY.PLAY_PAUSE && !P.paused());
+      if (wantPause) { if (P.pause()) showInfo(); }
+      else if (P.paused()) { P.resume(); showInfo(); }
+      else if (!watching && focusArea === 'list' && channels[chIndex]) watch(channels[chIndex]);
+      return true;
+    }
+    return false;
+  }
+  P.on('paused', function (on) { $('paused').classList.toggle('show', !!on); });
+
+  // No internet: say so (playlists, guides and streams all need it) and pick up again when it's back.
+  var offlineShown = false;
+  function setOnline(online) {
+    if (!online && !offlineShown) {
+      offlineShown = true;
+      openSheet('No internet connection', [{label: 'OK', action: function () { closeSheet(); }}],
+        {html: '<p class="hint">Garage Player needs the internet for playlists, the guide and channels. Check the TV\'s network settings; playback resumes when the connection is back.</p>'});
+    } else if (online && offlineShown) {
+      offlineShown = false;
+      if (sheet && sheet.title === 'No internet connection') closeSheet();
+      toast('Back online');
+      if (watching && P.current()) P.play(P.current(), info.playlist && info.playlist.ua);
+      else if (!info.channels || !info.channels.length) load(false);
+    }
+  }
+  window.addEventListener('offline', function () { setOnline(false); });
+  window.addEventListener('online', function () { setOnline(true); });
+  try {
+    webapis.network.addNetworkStateChangeListener(function (state) {
+      var N = webapis.network.NetworkState;
+      if (state === N.GATEWAY_DISCONNECTED || state === N.LAN_CABLE_DETACHED) setOnline(false);
+      else if (state === N.GATEWAY_CONNECTED || state === N.LAN_CABLE_ATTACHED) setOnline(true);
+    });
+  } catch (e) {}
 
   var okDown = 0, okLong = false, okTimer = null, lastKey = 0;
   document.addEventListener('keydown', function (e) {
@@ -839,6 +886,7 @@
       return;
     }
     if (sheet) { if (!(e.repeat && now - lastKey < 110)) { lastKey = now; sheetKey(code); } e.preventDefault(); return; }
+    if (mediaKey(code)) { e.preventDefault(); return; }
     if (code >= 48 && code <= 57) { digit(String(code - 48)); e.preventDefault(); return; }
     if (watching && zap && code !== 13) { zapKey(code); e.preventDefault(); return; }
     if (watching && code !== 13) {
@@ -896,7 +944,8 @@
   function tick() { $('clock').textContent = hhmm(Date.now()); }
 
   if (hasTizen && tizen.tvinputdevice) {
-    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'ChannelUp', 'ChannelDown', 'Info'].forEach(function (k) {
+    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'ChannelUp', 'ChannelDown', 'Info',
+     'MediaPlayPause', 'MediaPlay', 'MediaPause', 'MediaStop', 'MediaFastForward', 'MediaRewind'].forEach(function (k) {
       try { tizen.tvinputdevice.registerKey(k); } catch (e) {}
     });
   }

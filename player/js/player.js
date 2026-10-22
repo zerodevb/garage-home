@@ -19,9 +19,32 @@ var GP = window.GP || {};
     if (av && current) { try { av.setDisplayRect(r[0], r[1], r[2], r[3]); } catch (e) {} }
   }
 
+  // Samsung's screensaver must stay off while video plays, and come back when it stops.
+  function screenSaver(on) {
+    try {
+      var c = webapis.appcommon;
+      c.setScreenSaver(on ? c.AppCommonScreenSaverState.SCREEN_SAVER_ON : c.AppCommonScreenSaverState.SCREEN_SAVER_OFF, function () {}, function () {});
+    } catch (e) {}
+  }
+  var paused = false;
+  function pause() {
+    if (!current || paused) return false;
+    try { if (av) av.pause(); } catch (e) { return false; }
+    paused = true; screenSaver(true); emit('paused', true);
+    return true;
+  }
+  function resume() {
+    if (!current || !paused) return false;
+    try { if (av) av.play(); } catch (e) { return false; }
+    paused = false; screenSaver(false); emit('paused', false);
+    return true;
+  }
+
   function stop() {
     clearTimeout(retryTimer);
     current = null;
+    if (paused) { paused = false; emit('paused', false); }
+    screenSaver(true);
     if (!av) return;
     try { av.stop(); } catch (e) {}
     try { av.close(); } catch (e) {}
@@ -53,7 +76,7 @@ var GP = window.GP || {};
       try { av.setDisplayMethod(MODES[mode]); } catch (e) {}
       av.prepareAsync(function () {
         if (current !== ch) return;
-        try { av.play(); retries = 0; emit('playing', ch); } catch (e) { retry(ua); }
+        try { av.play(); retries = 0; paused = false; screenSaver(false); emit('playing', ch); } catch (e) { retry(ua); }
       }, function () { retry(ua); });
     } catch (e) { retry(ua); }
   }
@@ -96,7 +119,7 @@ var GP = window.GP || {};
   function subtitlesOff() { if (av) { try { av.setSilentSubtitle(true); } catch (e) {} } emit('subtitle', ''); }
 
   GP.player = {
-    available: !!av, play: play, stop: stop, place: place, setMode: setMode, mode: function () { return mode; },
+    available: !!av, play: play, stop: stop, pause: pause, resume: resume, paused: function () { return paused; }, place: place, setMode: setMode, mode: function () { return mode; },
     tracks: tracks, selectTrack: selectTrack, subtitlesOff: subtitlesOff, current: function () { return current; },
     on: function (name, fn) { listeners[name] = fn; }
   };

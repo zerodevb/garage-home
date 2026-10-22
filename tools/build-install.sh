@@ -24,8 +24,9 @@ if [[ -z "$AUTHOR_PW" || -z "$DIST_PW" ]]; then
 fi
 
 cd "$ROOT/$APP_DIR"
-# Per-TV settings baked into the package: the TV's own IP (phone QR codes) and an optional weather place.
-print -r -- "window.GARAGE_CONFIG = {tvIp: '${TV%%:*}'${GARAGE_PLACE:+, place: $GARAGE_PLACE}};" > garage-config.js
+# Per-TV settings baked into the package: the TV's own IP (phone QR codes), an optional weather place,
+# and GARAGE_STANDALONE=1 for Garage Player without Vetro (no phone QR, playlists load directly).
+print -r -- "window.GARAGE_CONFIG = {tvIp: '${TV%%:*}'${GARAGE_PLACE:+, place: $GARAGE_PLACE}${GARAGE_STANDALONE:+, standalone: true}};" > garage-config.js
 CERT_DIR="$CERT_DIR" AUTHOR_PW="$AUTHOR_PW" DIST_PW="$DIST_PW" node build.cjs
 $SDB start-server >/dev/null 2>&1
 for i in {1..10}; do $SDB connect $TV >/dev/null 2>&1; $SDB devices | grep -q "$TV" && break; sleep 3; done

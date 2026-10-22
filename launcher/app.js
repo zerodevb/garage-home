@@ -58,7 +58,7 @@
   function icon(name) { return '<svg class="ico" viewBox="0 0 24 24">' + ICONS[name] + '</svg>'; }
 
   // Artwork for apps whose installed icon is missing or a placeholder.
-  // {icon} is replaced with the app's installed icon.
+  // {icon} is replaced with the app's installed icon (an <img> without one is left out).
   var ART = [
     [/smarters/i, 'linear-gradient(135deg, #1d2b64, #5b2a86)', '<img class="art-wide" src="{icon}" alt="">'],
     [/digitalb/i, '#e60004', '<div class="art-logo"><img src="{icon}" alt=""><span>DigitAlb</span></div>'],
@@ -165,6 +165,10 @@
     });
   }
 
+  function withIcon(html, icon) {
+    return icon ? html.replace('{icon}', icon) : html.replace(/<img[^>]*\{icon\}[^>]*>/, '');
+  }
+
   /* ---------- tiles ---------- */
   function tileFor(app, opts) {
     var el = document.createElement('div');
@@ -178,7 +182,7 @@
     var art = !app.svg && artOf(app);
     if (art) {
       el.style.background = art[1];
-      el.innerHTML = art[2].replace('{icon}', app.icon || '');
+      el.innerHTML = withIcon(art[2], app.icon);
     } else if (app.svg) {
       el.innerHTML = icon(app.svg) + '<div class="name">' + esc(app.name) + '</div>';
     } else if (app.icon) {
@@ -280,7 +284,7 @@
       var box = $('heroArtBox'), custom = artOf(app);
       box.style.background = custom ? custom[1] : '';
       if (custom) {
-        box.innerHTML = custom[2].replace('{icon}', app.icon || '');
+        box.innerHTML = withIcon(custom[2], app.icon);
       } else {
         box.innerHTML = '<img alt="">';
         var art = box.firstChild;

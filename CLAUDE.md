@@ -48,7 +48,7 @@ Always show the dry run first and get the user's OK before `--apply`. Tell them 
 - The TV runs **Chromium 76**. Write ES5-style JavaScript (`var`, `function`); no optional chaining, nullish coalescing, flex `gap` or `inset`. Do not add frameworks or a bundler.
 - Files that get packaged are listed in `FILES` in each `build.cjs`; add new files there.
 - Preview in a desktop browser by opening `launcher/index.html` or `player/index.html`. `launcher/preview-apps.js` fakes the TV app list; `#keys=40,40,13` in the URL presses keys after load.
-- Per-TV settings come from `garage-config.js`, generated at build time from `garage.env` (`tvIp`, optional `place`). Don't hard-code IPs or locations.
+- Per-TV settings come from `garage-config.js`, generated at build time from `garage.env` (`tvIp`, optional `place`, `standalone` from `GARAGE_STANDALONE=1` for Garage Player without Vetro). Don't hard-code IPs or locations.
 - Keep the look: petrol/teal palette and the **garage**home wordmark (bold "garage", light second word).
 
 ## Safety
