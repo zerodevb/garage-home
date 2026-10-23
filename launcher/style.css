@@ -212,6 +212,8 @@ svg.ico { fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: 
 .hero-poster .art-yt svg { width: 84px; height: 60px; }
 .hero-poster .art-yt span { font-size: 52px; margin-left: 14px; }
 .art-name { padding: 0 30px; font-size: 48px; font-weight: 700; letter-spacing: -1px; text-align: center; }
+.art-word { font-size: 40px; line-height: 1; text-align: center; padding: 0 14px; white-space: nowrap; }
+.hero-poster .art-word { transform: scale(1.35); }
 .art-gp { display: flex; align-items: center; color: #fff; }
 .art-gp svg { width: 52px; height: 64px; flex: none; }
 .art-gp span { margin-left: 10px; font-size: 29px; font-weight: 300; letter-spacing: -1px; color: var(--mint); }

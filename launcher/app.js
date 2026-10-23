@@ -19,6 +19,7 @@
 
   // [match, glow rgb, one-line description]
   var BRANDS = [
+    [/garageplay|garageiptv/i, '14, 150, 138', 'Your IPTV channels, folders and favorites'],
     [/digitalb/i, '225, 35, 35', 'Live channels and TV on demand'],
     [/netflix/i, '229, 9, 20', 'Series, films and documentaries'],
     [/disney/i, '30, 70, 200', 'Disney, Pixar, Marvel and Star Wars'],
@@ -30,7 +31,39 @@
     [/sweet/i, '255, 70, 120', 'Live channels and films'],
     [/iptv|smarters/i, '110, 60, 170', 'Your IPTV channels'],
     [/klani/i, '227, 27, 35', 'Live TV and on demand'],
-    [/garageplay/i, '14, 150, 138', 'Your IPTV channels, folders and favorites']
+    [/^max$|hbo/i, '0, 40, 230', 'HBO series, films and more'],
+    [/apple ?tv/i, '120, 120, 130', 'Apple originals, films and series'],
+    [/paramount/i, '0, 100, 255', 'Paramount films, series and live TV'],
+    [/hulu/i, '28, 231, 131', 'Series, films and originals'],
+    [/peacock/i, '90, 90, 255', 'NBC series, films and live sport'],
+    [/pluto/i, '255, 225, 0', 'Free live channels and films'],
+    [/tv ?plus|samsung tv/i, '20, 40, 160', 'Free live channels from Samsung'],
+    [/tubi/i, '116, 8, 255', 'Free films and series'],
+    [/twitch/i, '145, 70, 255', 'Live streams and gaming'],
+    [/plex/i, '229, 160, 13', 'Your media library and free films'],
+    [/jellyfin/i, '0, 164, 220', 'Your own media server'],
+    [/emby/i, '82, 181, 75', 'Your own media server'],
+    [/crunchyroll/i, '244, 117, 33', 'Anime series and films'],
+    [/dazn/i, '248, 252, 0', 'Live sport and replays'],
+    [/apple ?music/i, '250, 35, 59', 'Music, radio and lyrics'],
+    [/deezer/i, '162, 56, 255', 'Music and podcasts'],
+    [/tidal/i, '200, 200, 200', 'Hi-fi music'],
+    [/amazon ?music/i, '37, 209, 218', 'Music and podcasts'],
+    [/smartthings/i, '21, 191, 255', 'Your smart home on the TV'],
+    [/mubi/i, '200, 200, 200', 'Hand-picked cinema'],
+    [/viaplay/i, '255, 30, 86', 'Series, films and live sport'],
+    [/canal/i, '200, 200, 200', 'Films, series and sport'],
+    [/raiplay/i, '10, 95, 255', 'Rai channels and on demand'],
+    [/zdf/i, '250, 125, 25', 'ZDF channels and on demand'],
+    [/ard ?mediathek|\bard\b/i, '0, 75, 150', 'ARD channels and on demand'],
+    [/iplayer/i, '255, 76, 152', 'BBC channels and on demand'],
+    [/itvx/i, '222, 235, 82', 'ITV channels and on demand'],
+    [/steam/i, '102, 192, 244', 'Play your PC games on the TV'],
+    [/xbox/i, '16, 124, 16', 'Cloud gaming with Xbox'],
+    [/geforce/i, '118, 185, 0', 'Cloud gaming with GeForce NOW'],
+    [/tring/i, '227, 6, 19', 'Live channels and on demand'],
+    [/zattoo/i, '255, 119, 0', 'Live TV channels'],
+    [/youtube ?kids/i, '235, 30, 30', 'Videos for children']
   ];
 
   // One line style for every drawn icon (24px grid, 1.75 stroke, round joins).
@@ -60,16 +93,64 @@
   // Artwork for apps whose installed icon is missing or a placeholder.
   // {icon} is replaced with the app's installed icon (an <img> without one is left out).
   var ART = [
-    [/garageplay|garageiptv/i, 'linear-gradient(135deg, #1d4a4d, #0f2326)', '<div class="art-gp"><svg viewBox="150 110 270 330"><path d="M176 148 Q176 128 194 138 L322 214 Q340 225 322 236 L194 312 Q176 322 176 302 Z" fill="#9fe6dc"/><path d="M352 150 a110 110 0 0 1 0 150" fill="none" stroke="#9fe6dc" stroke-width="20" stroke-linecap="round" opacity=".85"/><path d="M392 116 a160 160 0 0 1 0 218" fill="none" stroke="#9fe6dc" stroke-width="20" stroke-linecap="round" opacity=".5"/><rect x="166" y="364" width="180" height="62" rx="16" fill="#9fe6dc"/><text x="256" y="408" text-anchor="middle" font-weight="800" font-size="40" letter-spacing="7" fill="#0f2326">IPTV</text></svg><span><b>garage</b>player</span></div>'],
+    [/garageplay|garageiptv|garage player/i, 'linear-gradient(135deg, #1d4a4d, #0f2326)', '<div class="art-gp"><svg viewBox="150 110 270 330"><path d="M176 148 Q176 128 194 138 L322 214 Q340 225 322 236 L194 312 Q176 322 176 302 Z" fill="#9fe6dc"/><path d="M352 150 a110 110 0 0 1 0 150" fill="none" stroke="#9fe6dc" stroke-width="20" stroke-linecap="round" opacity=".85"/><path d="M392 116 a160 160 0 0 1 0 218" fill="none" stroke="#9fe6dc" stroke-width="20" stroke-linecap="round" opacity=".5"/><rect x="166" y="364" width="180" height="62" rx="16" fill="#9fe6dc"/><text x="256" y="408" text-anchor="middle" font-weight="800" font-size="40" letter-spacing="7" fill="#0f2326">IPTV</text></svg><span><b>garage</b>player</span></div>'],
     [/smarters/i, 'linear-gradient(135deg, #1d2b64, #5b2a86)', '<img class="art-wide" src="{icon}" alt="">'],
     [/digitalb/i, '#e60004', '<div class="art-logo"><img src="{icon}" alt=""><span>DigitAlb</span></div>'],
     [/spotify/i, '#121212', '<div class="art-logo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1ed760"/><path d="M6.2 9.2c3.9-1.2 8.3-.8 11.6 1.1M6.8 12.5c3.2-.9 6.7-.6 9.5 1M7.4 15.6c2.6-.7 5.2-.4 7.4.8" fill="none" stroke="#121212" stroke-width="1.7" stroke-linecap="round"/></svg><span>Spotify</span></div>'],
-    [/youtube/i, '#0f0f0f', '<div class="art-yt"><svg viewBox="0 0 28 20"><rect width="28" height="20" rx="5" fill="#ff0033"/><path d="M11 5.5v9l7.8-4.5z" fill="#fff"/></svg><span>YouTube</span></div>'],
+    [/youtube(?! ?kids)/i, '#0f0f0f', '<div class="art-yt"><svg viewBox="0 0 28 20"><rect width="28" height="20" rx="5" fill="#ff0033"/><path d="M11 5.5v9l7.8-4.5z" fill="#fff"/></svg><span>YouTube</span></div>'],
     [/primevideo|prime video/i, '#0f171e', '<div class="art-pv"><span>prime video</span><svg viewBox="0 0 60 12"><path d="M2 3c16 9 38 9 54 0" fill="none" stroke="#1399ff" stroke-width="3" stroke-linecap="round"/><path d="M50 1l7 2-4 6" fill="none" stroke="#1399ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>']
   ];
+  // Branded buttons for common TV apps: brand colours and a styled name (not the brand's logo).
+  // [match, background, text colour, label, extra style]
+  var WORDMARKS = [
+    [/netflix/i, '#000', '#e50914', 'NETFLIX', 'font-weight:800;letter-spacing:2px'],
+    [/disney/i, 'linear-gradient(135deg, #0b1a5a, #1d47b8)', '#fff', 'Disney+', 'font-weight:700'],
+    [/^max$/i, '#0026ff', '#fff', 'max', 'font-weight:800;font-size:54px;letter-spacing:-2px'],
+    [/hbo/i, 'linear-gradient(135deg, #2b0a5c, #6b2bd6)', '#fff', 'HBO Max', 'font-weight:800'],
+    [/youtube ?kids/i, '#ff0033', '#fff', 'YouTube Kids', 'font-weight:800'],
+    [/apple ?music/i, 'linear-gradient(135deg, #fa233b, #fb5c74)', '#fff', 'Music', 'font-weight:600'],
+    [/apple ?tv/i, '#000', '#fff', 'Apple TV', 'font-weight:600'],
+    [/paramount/i, 'linear-gradient(135deg, #0047cc, #0a7cff)', '#fff', 'Paramount+', 'font-weight:700'],
+    [/hulu/i, '#1ce783', '#0b0c0f', 'hulu', 'font-weight:800;font-size:50px;letter-spacing:-1px'],
+    [/peacock/i, '#000', '#fff', 'peacock', 'font-weight:700'],
+    [/pluto/i, '#000', '#fff200', 'Pluto TV', 'font-weight:800'],
+    [/tv ?plus|samsung tv/i, '#1428a0', '#fff', 'TV Plus', 'font-weight:700'],
+    [/tubi/i, '#7408ff', '#ffff13', 'tubi', 'font-weight:800;font-size:50px'],
+    [/twitch/i, '#9146ff', '#fff', 'twitch', 'font-weight:800'],
+    [/plex/i, '#1f2326', '#e5a00d', 'plex', 'font-weight:800;font-size:48px'],
+    [/jellyfin/i, 'linear-gradient(135deg, #aa5cc3, #00a4dc)', '#fff', 'Jellyfin', 'font-weight:700'],
+    [/emby/i, '#52b54b', '#fff', 'emby', 'font-weight:700'],
+    [/crunchyroll/i, '#f47521', '#fff', 'crunchyroll', 'font-weight:700;font-size:32px'],
+    [/dazn/i, '#0c161c', '#f8fc00', 'DAZN', 'font-weight:800;letter-spacing:2px'],
+    [/deezer/i, '#a238ff', '#fff', 'deezer', 'font-weight:800'],
+    [/tidal/i, '#000', '#fff', 'TIDAL', 'font-weight:700;letter-spacing:6px'],
+    [/amazon ?music/i, '#0f1b2a', '#25d1da', 'amazon music', 'font-weight:700;font-size:32px'],
+    [/smartthings/i, '#15bfff', '#fff', 'SmartThings', 'font-weight:700;font-size:34px'],
+    [/mubi/i, '#000', '#fff', 'MUBI', 'font-weight:800;letter-spacing:6px'],
+    [/viaplay/i, '#1a0f2e', '#ff1e56', 'viaplay', 'font-weight:800'],
+    [/canal/i, '#000', '#fff', 'CANAL+', 'font-weight:800;letter-spacing:1px'],
+    [/raiplay/i, '#0a5fff', '#fff', 'RaiPlay', 'font-weight:700'],
+    [/zdf/i, '#fa7d19', '#fff', 'ZDF', 'font-weight:800;letter-spacing:2px'],
+    [/ard ?mediathek|\bard\b/i, '#004b96', '#fff', 'ARD', 'font-weight:800;letter-spacing:2px'],
+    [/iplayer/i, 'linear-gradient(135deg, #ff4c98, #f54997)', '#fff', 'iPlayer', 'font-weight:700'],
+    [/itvx/i, '#deeb52', '#101010', 'ITVX', 'font-weight:800;letter-spacing:1px'],
+    [/steam/i, 'linear-gradient(135deg, #171a21, #2a475e)', '#fff', 'STEAM LINK', 'font-weight:800;font-size:32px;letter-spacing:1px'],
+    [/xbox/i, '#107c10', '#fff', 'XBOX', 'font-weight:800;letter-spacing:4px'],
+    [/geforce/i, '#000', '#76b900', 'GeForce NOW', 'font-weight:800;font-size:32px'],
+    [/rakuten|wuaki/i, '#bf001e', '#fff', 'Rakuten TV', 'font-weight:700'],
+    [/skyshowtime/i, 'linear-gradient(135deg, #3d1a7a, #7a3cf0)', '#fff', 'SkyShowtime', 'font-weight:700;font-size:34px'],
+    [/sweet/i, 'linear-gradient(135deg, #ff4678, #ff8a5c)', '#fff', 'SWEET.TV', 'font-weight:800'],
+    [/klani/i, '#e31b23', '#fff', 'Klani IM', 'font-weight:800'],
+    [/tring/i, '#e30613', '#fff', 'TRING', 'font-weight:800;letter-spacing:3px'],
+    [/zattoo/i, '#ff7700', '#fff', 'zattoo', 'font-weight:800']
+  ].map(function (w) {
+    return [w[0], w[1], '<div class="art-word" style="color:' + w[2] + ';' + w[4] + '">' + w[3] + '</div>'];
+  });
   function artOf(app) {
     var key = app.id + ' ' + app.name;
     for (var i = 0; i < ART.length; i++) if (ART[i][0].test(key)) return ART[i];
+    // Wordmarks match the name only, so e.g. "IPTV Smarters Max" (above) isn't mistaken for Max.
+    for (var w = 0; w < WORDMARKS.length; w++) if (WORDMARKS[w][0].test(app.name)) return WORDMARKS[w];
     return null;
   }
 

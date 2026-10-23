@@ -29,6 +29,7 @@ Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung 
 ## Features
 
 - **Your apps, your order.** Rearrange the home row from the remote; a lazy-loaded full app grid holds everything else.
+- **Branded buttons.** About 40 popular TV apps get a branded tile and a featured-app colour, even when the TV only has a placeholder icon: Netflix, Disney+, Max, Prime Video, YouTube, Apple TV, Paramount+, Spotify, Plex, Twitch, DAZN, Pluto TV, Samsung TV Plus and more.
 - **Widgets.** Clock, weather with a 5-day forecast, and a Today row with news, holidays, exchange rates and a phone remote.
 - **Ambient mode.** A photo screensaver when the TV sits idle.
 - **Quick controls.** Mute, volume, brightness and a sleep timer — without opening Samsung's menus.
