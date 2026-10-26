@@ -19,11 +19,11 @@
 Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung Smart Hub bar with a full-screen **custom home screen** for Tizen TVs, driven entirely with the remote. It opens when the TV turns on and when you press **Home**, shows your apps in the order you choose, and puts the things you actually use one press away. It is built on top of [Vetro](https://github.com/andrearicci93/vetro), which provides the root service that makes Home-button handling, quick controls and the task manager possible.
 
 <p align="center">
-  <img src="docs/images/garage-home.jpg" alt="Garage Home: clock, weather, featured app and your apps row" width="1000">
+  <img src="docs/images/garage-home-1.2.jpg" alt="Garage Home: clock, weather, featured app and your apps row" width="1000">
   <br><em>Garage Home (desktop preview).</em>
 </p>
 <p align="center">
-  <img src="docs/images/garage-home-screens.jpg" alt="Garage Home screens: Today row, TV shortcuts and quick controls, all apps with branded buttons" width="1000">
+  <img src="docs/images/garage-home-screens-1.2.jpg" alt="Garage Home screens: Today row, TV shortcuts and quick controls, all apps with branded buttons" width="1000">
 </p>
 
 ## What's new
