@@ -26,6 +26,17 @@ Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung 
   <img src="docs/images/garage-home-screens.jpg" alt="Garage Home screens: Today row, TV shortcuts and quick controls, all apps with Garage Player" width="1000">
 </p>
 
+## What's new
+
+**Garage Home 1.2.0 · Garage Player 1.1.0**
+
+- **No Samsung bar behind Garage Home.** After the Home key, Samsung's own Home is closed (a trick borrowed from Vetro's launcher), and *Autorun Smart Hub* is switched off once so Samsung's Home doesn't open at power-on. A **Samsung Home** tile opens it on purpose.
+- **Branded buttons for about 40 popular TV apps**, with a matching colour and description when featured.
+- **New icons** for both apps, and a drawn Garage Player tile in Garage Home.
+- **Featured apps rotate again**, and the gearbox dot follows the gate like a real stick.
+- **Garage Player:** Play/Pause/Stop on the remote, a no-internet message that resumes, and `GARAGE_STANDALONE=1` for TVs without Vetro.
+- **Vetro 0.3.2:** the Garage branch now follows upstream Vetro, with Tizen 5.5 support and the remote-reconnect fix.
+
 ## Features
 
 - **Your apps, your order.** Rearrange the home row from the remote; a lazy-loaded full app grid holds everything else.
@@ -36,7 +47,7 @@ Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung 
 - **Task manager.** See what is running and close background apps to free memory.
 - **Kids lock.** PIN-protect chosen apps.
 - **Home button and power-on.** The remote's Home key and TV power-on bring you back to Garage Home. Samsung's own Home bar is closed right after, so it doesn't linger behind, and *Autorun Smart Hub* is switched off once so it doesn't open at power-on (the old value is kept). A **Samsung Home** tile in the TV row still opens Samsung's bar when you want it.
-- **Pairing sign-in.** Vetro only obeys apps on the TV and devices you paired with a code shown on screen.
+- **Pairing sign-in.** Vetro only obeys apps on the TV and devices you paired with a code shown on screen (also contributed to Vetro itself).
 - **Light.** Around 80 MB of RAM fresh, written for the TV's Chromium 76 engine.
 
 ## Garage Player
@@ -79,7 +90,7 @@ You can preview both apps in a desktop browser by opening `launcher/index.html` 
 
 ## Secure by default
 
-Upstream Vetro answers anyone on the network. The Garage branch adds **pairing**: a browser or script that wants the dashboard or API asks to pair, Garage Home shows a 6-digit code on the TV, and only a device that types it gets a key. Apps on the TV itself need no setup. Requests using host names instead of the TV's IP (DNS rebinding) and cross-site requests from other web pages are refused; the dashboard has *Sign out* and *Sign out all devices*.
+Vetro's dashboard and API use **pairing**: a browser or script that wants them asks to pair, Garage Home shows a 6-digit code on the TV, and only a device that types it gets a key. Apps on the TV itself need no setup, other web pages can't start a pairing or use a paired browser, and the dashboard has *Sign out* and *Sign out all devices*. We wrote this sign-in for Garage Home and have contributed it to Vetro itself ([andrearicci93/vetro#9](https://github.com/andrearicci93/vetro/pull/9)); the Garage branch already includes it.
 
 ```bash
 TV=192.168.1.50 node tools/vetro-key.mjs     # pair this computer for the tools below
