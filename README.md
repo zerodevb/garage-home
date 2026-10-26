@@ -58,9 +58,9 @@ Garage Home ships with **Garage Player**, an IPTV player for M3U and Xtream play
 
 - A Samsung Tizen TV with **Developer Mode** enabled and **Tizen Studio** (TV Extensions + Samsung Certificate Extension) on your computer.
 - A Samsung **certificate profile** for signing.
-- **Vetro with the Garage additions** for Home-button handling, quick controls, the task manager, the phone QR inbox and the playlist proxy. Use the preserved fork: [zerodevb/vetro](https://github.com/zerodevb/vetro) — branch `garage`, based on upstream commit [`e8553f2`](https://github.com/andrearicci93/vetro/commit/e8553f2) (tag `upstream-e8553f2`). Follow Vetro's own [installation guide](https://github.com/andrearicci93/vetro/blob/main/app/docs/INSTALLATION.md).
+- **Vetro with the Garage additions** for Home-button handling, quick controls, the task manager, the phone QR inbox and the playlist proxy. Use the preserved fork: [zerodevb/vetro](https://github.com/zerodevb/vetro) — branch `garage`, Vetro 0.3.2 plus the Garage additions; the original tested base is kept as tag `upstream-e8553f2`. Follow Vetro's own [installation guide](https://github.com/andrearicci93/vetro/blob/main/app/docs/INSTALLATION.md).
 
-Without Vetro, Garage Home and Garage Player still run as normal apps; the root-powered features simply report that Vetro is unavailable.
+Without Vetro, Garage Home and Garage Player still run as normal apps; the root-powered features simply report that Vetro is unavailable. Vetro 0.3 also has its own Launcher tab; keep it off when you use Garage Home, since both take the Home key.
 
 ## Build and install
 

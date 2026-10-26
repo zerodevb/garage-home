@@ -9,7 +9,7 @@ Guidance for Claude Code when helping someone install, configure or change **Gar
 - `tools/build-install.sh` — signs an app with the user's Samsung certificate, installs it over SDB and opens it. Called by `build-launcher.sh` / `build-player.sh`.
 - `tools/signing/` — Node signing dependencies (from Vetro).
 - `tools/garage-debloat.mjs` — turns off unused Samsung services through Vetro's API; dry run by default.
-- Root-powered features (Home button, power-on launch, quick controls, task manager, phone QR inbox, playlist proxy) come from **Vetro with the Garage additions**: `https://github.com/zerodevb/vetro`, branch `garage`, based on upstream `andrearicci93/vetro` commit `e8553f2` (tag `upstream-e8553f2`). Use that branch, not upstream `main`, unless the user asks to update.
+- Root-powered features (Home button, power-on launch, quick controls, task manager, phone QR inbox, playlist proxy) come from **Vetro with the Garage additions**: `https://github.com/zerodevb/vetro`, branch `garage`, currently Vetro 0.3.2 plus the Garage additions (the original tested base is kept as tag `upstream-e8553f2`). Use that branch, not upstream `main`, unless the user asks to update.
 
 ## Install walkthrough
 
@@ -28,6 +28,7 @@ Go one step at a time, and check each step before the next. Many steps happen on
 ## Connection rules (learned the hard way)
 
 - Installing needs the TV's **Host PC IP = this computer**. Vetro's root needs **Host PC IP = 127.0.0.1**. After installing, remind the user to switch it back to `127.0.0.1`, or Home button and quick controls stop working. Changing it sometimes only takes effect after a TV restart.
+- Vetro 0.3 has its own **Launcher** tab (a .NET dock that takes over the Home key). Leave it **off** when Garage Home is used: both would react to Home.
 - The TV allows **one developer connection at a time**. `build-install.sh` disconnects when done; do not leave `sdb` connected.
 - **Never run `sdb kill-server`** while Tizen Studio is open; it comes back in a state that refuses to connect.
 - A short press of the remote's power button is Instant On (apps stay in memory). A real cold boot takes about 1.5–2 minutes before start-at-boot apps run; that is the TV, not a bug.
