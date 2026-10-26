@@ -28,6 +28,7 @@ Go one step at a time, and check each step before the next. Many steps happen on
 ## Connection rules (learned the hard way)
 
 - Installing needs the TV's **Host PC IP = this computer**. Vetro's root needs **Host PC IP = 127.0.0.1**. After installing, remind the user to switch it back to `127.0.0.1`, or Home button and quick controls stop working. Changing it sometimes only takes effect after a TV restart.
+- With the Garage branch, Vetro closes Samsung's Home (`com.samsung.tv.csfs`) after each Home press and switches *Autorun Smart Hub* off once (old value in `/home/owner/share/vetro/startup-backups/autorun.garage`; undo with `garage-debloat.mjs --restore-autorun` or in the TV's Settings). The **Samsung Home** tile in Garage Home's TV row opens Samsung's bar on purpose.
 - Vetro 0.3 has its own **Launcher** tab (a .NET dock that takes over the Home key). Leave it **off** when Garage Home is used: both would react to Home.
 - The TV allows **one developer connection at a time**. `build-install.sh` disconnects when done; do not leave `sdb` connected.
 - **Never run `sdb kill-server`** while Tizen Studio is open; it comes back in a state that refuses to connect.

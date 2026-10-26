@@ -6,6 +6,7 @@
 //   node tools/garage-debloat.mjs --extras        dry run including the optional extras
 //   node tools/garage-debloat.mjs --apply [--extras]   do it (saves a restore file first)
 //   node tools/garage-debloat.mjs --restore tools/debloat-restore-<time>.json   turn everything back on
+//   node tools/garage-debloat.mjs --restore-autorun   put Samsung's "Autorun Smart Hub" back as it was before Garage Home
 //
 // Only "disable" (pkgcmd -D, reversible with -A) and "stop" are used; nothing is uninstalled.
 // Never touched: components Vetro marks Keep or protected, your own apps, Vetro and Garage apps.
@@ -20,6 +21,10 @@ const args = process.argv.slice(2);
 const APPLY = args.includes('--apply'), EXTRAS = args.includes('--extras');
 const RESTORE = args.includes('--restore') ? args[args.indexOf('--restore') + 1] : null;
 const SWITCHES_ONLY = args.includes('--switches-only');   // apply only the Samsung off switches
+const RESTORE_AUTORUN = args.includes('--restore-autorun');
+// Same script as AUTORUN_RESTORE in Vetro's garage-autostart.js (Vetro switches Autorun off once and keeps the old value).
+const AUTORUN_RESTORE = 'b=/home/owner/share/vetro/startup-backups/autorun.garage\n' +
+  '[ -f "$b" ] && vconftool set -f -t int db/menu/smart_hub/ontvsetting/auto_start "$(cat "$b")" && rm -f "$b"; exit 0';
 
 // Never disable these, whatever the catalogue says.
 const NEVER = [/^vetrotvapp/, /^GarageHome/, /^GaragePlay/, /coba\.adagent/, /^org\.tizen\.tv-viewer/, /^com\.samsung\.tv\.csfs$/,
@@ -100,6 +105,7 @@ function plan(apps) {
 
 async function main() {
   if (RESTORE) return restore(RESTORE);
+  if (RESTORE_AUTORUN) { await exec(AUTORUN_RESTORE); console.log('Autorun Smart Hub is back to its value from before Garage Home.'); return; }
   if (SWITCHES_ONLY) {
     const stamp = new Date().toISOString().replace(/[:.]/g, '-');
     const file = path.join(path.dirname(new URL(import.meta.url).pathname), `debloat-restore-${stamp}.json`);

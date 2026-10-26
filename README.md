@@ -35,7 +35,7 @@ Garage Home is an open-source **Samsung TV launcher** that replaces the Samsung 
 - **Quick controls.** Mute, volume, brightness and a sleep timer — without opening Samsung's menus.
 - **Task manager.** See what is running and close background apps to free memory.
 - **Kids lock.** PIN-protect chosen apps.
-- **Home button and power-on.** The remote's Home key and TV power-on bring you back to Garage Home.
+- **Home button and power-on.** The remote's Home key and TV power-on bring you back to Garage Home. Samsung's own Home bar is closed right after, so it doesn't linger behind, and *Autorun Smart Hub* is switched off once so it doesn't open at power-on (the old value is kept). A **Samsung Home** tile in the TV row still opens Samsung's bar when you want it.
 - **Pairing sign-in.** Vetro only obeys apps on the TV and devices you paired with a code shown on screen.
 - **Light.** Around 80 MB of RAM fresh, written for the TV's Chromium 76 engine.
 
@@ -93,6 +93,7 @@ TV=192.168.1.50 node tools/vetro-key.mjs     # pair this computer for the tools 
 TV=192.168.1.50 node tools/garage-debloat.mjs              # show what would change
 TV=192.168.1.50 node tools/garage-debloat.mjs --apply      # apply (add --extras for more)
 TV=192.168.1.50 node tools/garage-debloat.mjs --restore debloat-restore-<date>.json
+TV=192.168.1.50 node tools/garage-debloat.mjs --restore-autorun     # Autorun Smart Hub back as before
 ```
 
 On the test TV, free RAM went from about 534 MB to about 690 MB. Results depend on your model and what was running.
